@@ -1,0 +1,34 @@
+{
+  "name": "tree-measurer",
+  "version": "0.1.0",
+  "description": "library to provides several measures of tree nodes",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xgbuils/tree-measurer.git"
+  },
+  "keywords": [
+    "tree",
+    "nodes",
+    "measurer",
+    "testing",
+    "facilitator"
+  ],
+  "author": "Xavier Garcia Buils <xgbuils@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xgbuils/tree-measurer/issues"
+  },
+  "homepage": "https://github.com/xgbuils/tree-measurer#readme",
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.1.3"
+  }
+}

@@ -1,0 +1,30 @@
+digraph G {
+    {rank=same 5}
+    5 -> 1;  
+    cm5 [label="",width=.1,style=invis]
+    5 -> cm5 [style=invis]
+    5 -> 2;
+
+    {rank=same 1 -> cm5 -> 2 [style=invis]}
+
+    1 -> 8;
+    cm1 [label="",width=.1,style=invis]
+    1 -> cm1 [style=invis]
+    cr1 [label="",width=.1,style=invis]
+    1 -> cr1 [style=invis]
+
+    2 -> 11;
+    cm2 [label="",width=.1,style=invis]
+    2 -> cm2 [style=invis]
+    2 -> 23;
+
+    {rank=same 8 -> cm1 -> cr1 -> 11 -> cm2 -> 23 [style=invis]}
+
+    cl11 [label="",width=.1,style=invis]
+    11 -> cl11 [style=invis]
+    cm11 [label="",width=.1,style=invis]
+    11 -> cm11 [style=invis]
+    11 -> 6;
+
+    {rank=same cl11 -> cm11 -> 6 [style=invis]}
+}
