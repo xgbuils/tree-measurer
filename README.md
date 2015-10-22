@@ -2,6 +2,8 @@
 
 A javascript tool to measure properties of trees for Node.js and browser with [browserify](http://browserify.org/).
 
+This tool borns with the intention of enabling easier tests about tree structures. It supply a series of methods that measures properties of tree nodes.
+
 ## Installation
 
 ``` bash
