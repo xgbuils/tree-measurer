@@ -50,7 +50,7 @@ measure.projection(tree.left) /* {
 }*/
 ```
 
-## [Api Documentation](docs/api.md)
+## [API Documentation](docs/api.md)
 
 ## Licence
 
