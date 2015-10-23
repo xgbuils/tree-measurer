@@ -165,6 +165,7 @@ It returns the data of tree `node`.
 ### .depth(node)
 - Type: Function
 - Returns: Boolean
+- Throws an error when TreeMesurer constructor does not receive `options.parentName`
 
 It returns the `depth` of tree node.
 
