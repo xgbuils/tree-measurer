@@ -9,130 +9,170 @@ var treeWithParent = trees.treeWithParent
 
 describe('TreeMeasurer()', function() {
     it('creates an instance of TreeMeasurer', function() {
-        var tm = new TreeMeasurer()
-        expect(tm).to.be.an.instanceOf(TreeMeasurer)
+        var measure = new TreeMeasurer()
+        expect(measure).to.be.an.instanceOf(TreeMeasurer)
     })
 
     it('creates an instance of TreeMeasurer that measures a tree based on object', function() {
-        var tm = new TreeMeasurer({
+        var measure = new TreeMeasurer({
             childNames: ['left', 'right'],
-            tree: treeObject
         })
 
-        expect(tm.height(treeObject)).to.be.equal(3)
+        var tree = simpleTreeObject()
+        expect(measure.height(tree)).to.be.equal(3)
     })
 
     it('creates an instance of TreeMeasurer that measures a tree based on array', function() {
-        var tm = new TreeMeasurer({
+        var measure = new TreeMeasurer({
             childNames: ['1', '2'],
-            tree: treeArray
         })
 
-        expect(tm.height(treeArray[1])).to.be.equal(1)
+        var tree = simpleTreeArray(treeArray[2])
+        expect(measure.height(treeArray[1])).to.be.equal(1)
     })
 })
 
-describe('.height()', function() {
-    var tm
-
-    beforeEach(function () {
-        tm = new TreeMeasurer({
-            childNames: ['left', 'right'],
-            tree: treeObject
-        })
-    })
-
+describe('.height()', function () {
     it('measures height of tree node', function () {
-        expect(tm.height(treeObject.right)).to.be.equal(2)
+        var measure = new TreeMeasurer({
+            childNames: ['left', 'right'],
+        })
+        var tree = simpleTreeObject()
+
+        expect(measure.height(tree.right)).to.be.equal(2)
+    })
+
+    it('heights of the same tree with or without parents are equal', function () {
+        var simpleMeasure = new TreeMeasurer({
+            childNames: ['1', '2'],
+        })
+        var parentMeasure = new TreeMeasurer({
+            childNames: ['2', '3'],
+            parentName: '1'
+        })
+        var simpleTree = simpleTreeArray()
+        var withParents = treeArrayWithParents()
+
+        expect(simpleMeasure.height(simpleTree)).to.be.equal(3)
+        expect(parentMeasure.height(withParents)).to.be.equal(3)
     })
 })
 
-describe('.isLeaf()', function() {
-    var tm
+describe('.isLeaf()', function () {
+    
+    context('using tree array', function () {
+        var measure = new TreeMeasurer({
+            childNames: ['1', '2']
+        })
+        var tree = simpleTreeArray()
 
-    beforeEach(function () {
-        tm = new TreeMeasurer({
-            childNames: ['1', '2'],
-            tree: treeArray
+
+        it('returns false if node is not a leaf', function () {
+            expect(measure.isLeaf(tree[2][1])).to.be.equal(false)
+        })
+
+        it('returns true if node is a leaf', function () {
+            expect(measure.isLeaf(tree[2][2])).to.be.equal(true)
         })
     })
 
-    it('returns false if node is not a leaf', function () {
-        expect(tm.isLeaf(treeArray[2][1])).to.be.equal(false)
-    })
+    context('using tree arrays with and without parent name', function () {
+        var simpleMeasure = new TreeMeasurer({
+            childNames: ['1', '2']
+        })
+        var parentMeasure = new TreeMeasurer({
+            childNames: ['2', '3'],
+            parentName: '1'
+        })
+        var simpleTree = simpleTreeArray()
+        var withParents = treeArrayWithParents()
 
-    it('returns true if node is a leaf', function () {
-        expect(tm.isLeaf(treeArray[2][2])).to.be.equal(true)
+        it('returns the same results in nodes with and without parents', function () {
+            expect(simpleMeasure.isLeaf(simpleTree[2])).to.be.equal(false)
+            expect(parentMeasure.isLeaf(withParents[3])).to.be.equal(false)
+        })
     })
 })
 
 describe('.data()', function() {
-	var tm
-
     it('returns data of node', function () {
-        tm = new TreeMeasurer({
+        var measure = new TreeMeasurer({
             childNames: ['1', '2'],
             dataName: '0',
-            tree: treeArray
         })
-        expect(tm.data(treeArray[2][1])).to.be.equal(11)
+        var tree = simpleTreeArray()
+
+        expect(measure.data(tree[2][1])).to.be.equal(11)
     })
 
     it('returns undefined if is not a tree node', function () {
-        tm = new TreeMeasurer({
+        var measure = new TreeMeasurer({
             childNames: ['left', 'right'],
             dataName: 'data',
-            tree: treeObject
         })
-        expect(tm.data(treeObject.left.right)).to.be.equal(undefined)
+        var tree = treeObjectWithParents()
+
+        expect(measure.data(tree.left.right)).to.be.equal(undefined)
     })
 })
 
-/*var util = require('util');
-
-console.debug = function (obj) {
-    console.log(util.inspect(obj, {showHidden: false, depth: null}));
-}*/
-
 describe('.projection()', function() {
     describe('if node have just data and child properties', function () {
-        context ('array tree', function () {
+        context ('array tree nodes without parent property', function () {
             it('returns clone of node subtree', function () {
-                var tm = new TreeMeasurer({
+                var measure = new TreeMeasurer({
                     childNames: ['1', '2'],
-                    dataName: '0',
-                    tree: treeArray
+                    dataName: '0'
                 })
-                var projection = tm.projection(treeArray)
-                expect(projection).to.be.deep.equal(treeArray)
-                expect(projection).not.to.be.equal(treeArray)
+                var tree = simpleTreeArray()
+
+                var projection = measure.projection(tree)
+                expect(projection).to.be.deep.equal(tree)
+                expect(projection).not.to.be.equal(tree)
             })
         })
 
-        context ('object tree', function () {
+        context ('object tree nodes without parent property', function () {
             it('returns clone of node subtree', function () {
-                var tm = new TreeMeasurer({
+                var measure = new TreeMeasurer({
                     childNames: ['left', 'right'],
-                    dataName: 'data',
-                    tree: treeObject
+                    dataName: 'data'
                 })
-                var projection = tm.projection(treeObject)
-                expect(projection).to.be.deep.equal(treeObject)
-                expect(projection).not.to.be.equal(treeObject)
+                var tree = simpleTreeObject()
+
+                var projection = measure.projection(tree.left)
+                expect(projection).to.be.deep.equal(tree.left)
+                expect(projection).not.to.be.equal(tree.left)
             })
         })
 
-        context ('tree with parent pointers', function () {
-            it('filters parent pointers of node subtree', function () {
+        context ('array tree nodes with parent properties', function () {
+            it('filters parent property of node subtree', function () {
+                var measure = new TreeMeasurer({
+                    childNames: ['2', '3'],
+                    parentName: '1',
+                    dataName: '0',
+                })
+                var tree = treeArrayWithParents()
+
+                var projection = measure.projection(tree[3])
+                expect(projection).to.be.deep.equal(treeArrayWithoutParents()[3])
+                expect(projection).not.to.be.equal(tree[3])
+            })
+        })
+
+        context ('object tree nodes with parent properties', function () {
+            it('filters parent propertie of node subtree', function () {
                 var tm = new TreeMeasurer({
                     childNames: ['left', 'right'],
                     parentName: 'parent',
                     dataName: 'data',
-                    tree: treeWithParent
                 })
-                var projection = tm.projection(treeWithParent)
-                expect(projection).to.be.deep.equal(treeObject)
-                expect(projection).not.to.be.equal(treeWithParent)
+                var tree = treeObjectWithParents()
+
+                var projection = tm.projection(tree)
+                expect(projection).to.be.deep.equal(simpleTreeObject())
+                expect(projection).not.to.be.equal(tree)
             })
         })
     })
@@ -140,7 +180,7 @@ describe('.projection()', function() {
 
 describe('.depth()', function() {
     context('tree measurer has parentName property', function () {
-    	var tm
+        var tm
         beforeEach(function () {
             tm = new TreeMeasurer({
                 parentName: 'parent',
@@ -160,79 +200,102 @@ describe('.depth()', function() {
     })
 
     context('tree measurer does not have parentName property', function () {
-    	beforeEach(function () {
+        beforeEach(function () {
             tm = new TreeMeasurer({
                 childNames: ['left', 'right'],
                 dataName: 'data',
-                tree: treeWithParent
             })
         })
 
-    	it('throws an exception', function () {
+        it('throws an exception', function () {
             expect(function () {
-            	tm.depth(treeWithParent.left.left)
+                tm.depth(treeWithParent.left.left)
             }).to.Throw()
         })
     })
 })
 
-function treeSamples() {
-    var trees = {
-        treeObject: {
-            data: 5,
+var util = require('util')
+
+console.debug = function (obj) {
+    console.log(util.inspect(obj, false, null));
+}
+
+
+
+function simpleTreeObject () {
+    return {
+        data: 5,
+        left: {
+            data: 1,
             left: {
-                data: 1,
-                left: {
-                    data: 8
-                },
+                data: 8
+            },
+        },
+        right: {
+            data: 2,
+            left: {
+                data: 11,
+                right: {
+                    data: 6
+                }
             },
             right: {
-                data: 2,
-                left: {
-                    data: 11,
-                    right: {
-                        data: 6
-                    }
-                },
-                right: {
-                    data: 23
-                }
+                data: 23
             }
-        },
-        treeArray: [
-            5, [
-                1, [
-                    8
-                ]
-            ], [
-                2, [
-                    11,
-                    undefined, [
-                        6
-                    ]
-                ], [
-                    23
-                ]
+        }
+    }
+}
 
-            ]
+function simpleTreeArray() {
+    return [
+        5, 
+        [
+            1, 
+            [8]
+        ], 
+        [
+            2, 
+            [
+                11,
+                undefined, 
+                [6]
+            ], 
+            [23]
+
         ]
-    }
+    ]
+}
 
-    function cloneSimpleTree (tree) {
-        var tm = new TreeMeasurer({
-            childNames: ['left', 'right'],
-            dataName: 'data',
-            tree: tree
-        })
+function treeObjectWithParents () {
+    var tree = simpleTreeObject()
+    tree.left.parent = tree.right.parent = tree
+    tree.left.left.parent = tree.left
+    tree.right.left.parent = tree.right.right.parent = tree.right
+    tree.right.left.right.parent = tree.right.left
 
-        return tm.projection(tree)
-    }
-    
-    var treeWithParent = trees.treeWithParent = cloneSimpleTree(trees.treeObject)
-    treeWithParent.right.parent = treeWithParent.left.parent = treeWithParent
-    treeWithParent.left.left.parent = treeWithParent.left
-    treeWithParent.right.left.parent = treeWithParent.right.right.parent = treeWithParent.right
-    treeWithParent.right.left.right.parent = treeWithParent.right.left
+    return tree
+}
 
-    return trees
+function treeArrayWithoutParents () {
+    var tree = simpleTreeArray()
+
+    tree.splice(1, 0, undefined)
+    tree[2].splice(1, 0, undefined)
+    tree[3].splice(1, 0, undefined)
+    tree[2][2].splice(1, 0, undefined)
+    tree[3][2].splice(1, 0, undefined)
+
+    return tree
+}
+
+function treeArrayWithParents () {
+    var tree = treeArrayWithoutParents()
+
+    tree[2][1] = tree[3][1] = tree
+    tree[2][2][1] = tree[3][2][1] = tree[2]
+    tree[3][3][1] = tree[3]
+    tree[3][2][3][1] = tree[3][2]
+
+    return tree
 }
