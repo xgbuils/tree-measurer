@@ -52,6 +52,10 @@ measure.projection(tree.left) /* {
 
 ## [API Documentation](docs/api.md)
 
+## TO DO
+
+- Add support to use this tool in legacy browsers (Now =< IE9)
+
 ## Licence
 
 MIT
