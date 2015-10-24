@@ -54,7 +54,7 @@ measure.projection(tree.left) /* {
 
 ## TO DO
 
-- Add support to use this tool in legacy browsers (Now =< IE9)
+- Add support to use this tool in legacy browsers (Now >= IE9)
 
 ## Licence
 

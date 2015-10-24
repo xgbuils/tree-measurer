@@ -2,11 +2,6 @@ var TreeMeasurer = require('../')
 var chai = require('chai')
 var expect = chai.expect
 
-var trees = treeSamples()
-var treeArray = trees.treeArray
-var treeObject = trees.treeObject
-var treeWithParent = trees.treeWithParent
-
 describe('TreeMeasurer()', function() {
     it('creates an instance of TreeMeasurer', function() {
         var measure = new TreeMeasurer()
@@ -27,8 +22,8 @@ describe('TreeMeasurer()', function() {
             childNames: ['1', '2'],
         })
 
-        var tree = simpleTreeArray(treeArray[2])
-        expect(measure.height(treeArray[1])).to.be.equal(1)
+        var tree = simpleTreeArray()
+        expect(measure.height(tree[1])).to.be.equal(1)
     })
 })
 
@@ -163,14 +158,14 @@ describe('.projection()', function() {
 
         context ('object tree nodes with parent properties', function () {
             it('filters parent propertie of node subtree', function () {
-                var tm = new TreeMeasurer({
+                var measure = new TreeMeasurer({
                     childNames: ['left', 'right'],
                     parentName: 'parent',
                     dataName: 'data',
                 })
                 var tree = treeObjectWithParents()
 
-                var projection = tm.projection(tree)
+                var projection = measure.projection(tree)
                 expect(projection).to.be.deep.equal(simpleTreeObject())
                 expect(projection).not.to.be.equal(tree)
             })
@@ -180,36 +175,41 @@ describe('.projection()', function() {
 
 describe('.depth()', function() {
     context('tree measurer has parentName property', function () {
-        var tm
+        var measure
         beforeEach(function () {
-            tm = new TreeMeasurer({
+            measure = new TreeMeasurer({
                 parentName: 'parent',
                 childNames: ['left', 'right'],
                 dataName: 'data',
-                tree: treeWithParent
             })
         })
+        var tree = treeObjectWithParents()
 
         it('returns depth of node', function () {
-            expect(tm.depth(treeWithParent.right)).to.be.equal(1)
+            expect(measure.depth(tree.right)).to.be.equal(1)
         })
 
         it('returns undefined if is not a tree node', function () {
-            expect(tm.depth(treeWithParent.left.left)).to.be.equal(2)
+            expect(measure.depth(tree.left.left)).to.be.equal(2)
         })
     })
 
     context('tree measurer does not have parentName property', function () {
+        var measure
+        var tree
         beforeEach(function () {
-            tm = new TreeMeasurer({
+            measure = new TreeMeasurer({
                 childNames: ['left', 'right'],
                 dataName: 'data',
             })
+
+            tree = simpleTreeObject()
         })
+
 
         it('throws an exception', function () {
             expect(function () {
-                tm.depth(treeWithParent.left.left)
+                measure.depth(tree.left.left)
             }).to.Throw()
         })
     })
@@ -220,8 +220,6 @@ var util = require('util')
 console.debug = function (obj) {
     console.log(util.inspect(obj, false, null));
 }
-
-
 
 function simpleTreeObject () {
     return {
@@ -251,7 +249,7 @@ function simpleTreeArray() {
     return [
         5, 
         [
-            1, 
+            1,
             [8]
         ], 
         [
