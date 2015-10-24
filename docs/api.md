@@ -1,6 +1,6 @@
 ## Before API documentation
 
-In API Documentation will be used two functions in the code samples repeatedly that returns two tree structures:
+In API Documentation will be used two functions in the explanation code that returns these tree sample structures:
 
 ``` javascript
 function treeObject () {
@@ -58,7 +58,7 @@ A set of properties configuring structure of tree to measure.
 - Type: Array
 - Default: []
 
-Array of strings that defines children names properties used to measure properties as node of tree like `height` and `projection` methods.
+Array of strings that defines children property names required to measure node tree properties like [`height`](#height-method) and [`projection`](#projection-method) methods.
 
 **Example:**
 ``` javascript
@@ -66,14 +66,14 @@ var TreeMeasurer = require('tree-measurer')
 var tree1 = treeObject()
 var tree2 = treeArray()
 
-// defines 'left' and 'right' as children names properties.
+// defines 'left' and 'right' as children property names.
 var measure1 = new TreeMeasurer({
     childrenNames: ['left', 'right']
 })
 measure1.height(tree1.right) // 1
 measure1.height(tree1.left) // 0
 
-// defines '2' and '3' indexs as children names properties.
+// defines '2' and '3' indexs as children property names.
 var measure2 = new TreeMeasurer({
     childNames: ['2', '3']
 })
@@ -84,7 +84,7 @@ measure2.height(tree2[3][2]) // 0
 ##### options.parentName
 - Type: String
 
-String that defines parent name property used to measure `depth` of tree.
+String that defines parent property name required to measure node tree properties like [`depth`](#depth-method) of tree method.
 
 **Example:**
 ``` javascript
@@ -92,13 +92,13 @@ var TreeMeasurer = require('tree-measurer')
 var tree1 = treeObject()
 var tree2 = treeArray()
 
-// defines 'parent' as parent name property.
+// defines 'parent' as parent property name.
 var measure1 = new TreeMeasurer({
     childrenNames: ['left', 'right']
 })
 measure1.depth(tree1.right) // 1
 
-// defines '1' as parent name property.
+// defines '1' as parent property name.
 var measure2 = new TreeMeasurer({
     parentName: '1'
 })
@@ -108,7 +108,7 @@ measure2.depth(tree2) // 0
 ##### options.dataName
 - Type: String
 
-String that defines data name property used to measure `data` or `projection` of tree node.
+String that defines data property name required to measure node tree properties like [`data`](#data-method) method.
 
 **Example:**
 ``` javascript
@@ -116,32 +116,32 @@ var TreeMeasurer = require('tree-measurer')
 var tree1 = treeObject()
 var tree2 = treeArray()
 
-// defines 'data' as data name property.
+// defines 'data' as data property name.
 var measure1 = new TreeMeasurer({
     dataName: 'data'
 })
 measure1.depth(tree1.right.left) // 0
 
-// defines '0' as data name property.
+// defines '0' as data property name.
 var measure2 = new TreeMeasurer({
     dataName: '0'
 })
 measure2.data(tree2) // 2
 ```
 
-<h3 id="height">.height (node)</h3>
+<h3 id="height-method">.height (node)</h3>
 - Type: Function
 - Returns: Integer
 
 It returns the height of tree `node`.
 
-### .isLeaf(node) # {#anchor name}
+<h3 id="isleaf-method">.isLeaf (node)</h3>
 - Type: Function
 - Returns: Boolean
 
 It returns if tree `node` is a leaf or not.
 
-### .data(node)
+<h3 id="data-method">.data (node)</h3>
 - Type: Function
 - Returns: Boolean
 
@@ -162,14 +162,14 @@ measure.data(tree.left) // 3
 
 It returns the data of tree `node`.
 
-### .depth(node)
+<h3 id="depth-method">.depth (node)</h3>
 - Type: Function
 - Returns: Boolean
 - Throws an error when TreeMesurer constructor does not receive `options.parentName`
 
 It returns the `depth` of tree node.
 
-### .projection(node)
+<h3 id="projection-method">.projection (node)</h3>
 - Type: Function
 - Returns: Tree
 
