@@ -10,7 +10,7 @@ describe('TreeMeasurer()', function() {
 
     it('creates an instance of TreeMeasurer that measures a tree based on object', function() {
         var measure = new TreeMeasurer({
-            childNames: ['left', 'right'],
+            childNames: ['left', 'right']
         })
 
         var tree = simpleTreeObject()
@@ -19,7 +19,7 @@ describe('TreeMeasurer()', function() {
 
     it('creates an instance of TreeMeasurer that measures a tree based on array', function() {
         var measure = new TreeMeasurer({
-            childNames: ['1', '2'],
+            childNames: ['1', '2']
         })
 
         var tree = simpleTreeArray()
@@ -30,7 +30,7 @@ describe('TreeMeasurer()', function() {
 describe('.height()', function () {
     it('measures height of tree node', function () {
         var measure = new TreeMeasurer({
-            childNames: ['left', 'right'],
+            childNames: ['left', 'right']
         })
         var tree = simpleTreeObject()
 
@@ -39,7 +39,7 @@ describe('.height()', function () {
 
     it('heights of the same tree with or without parents are equal', function () {
         var simpleMeasure = new TreeMeasurer({
-            childNames: ['1', '2'],
+            childNames: ['1', '2']
         })
         var parentMeasure = new TreeMeasurer({
             childNames: ['2', '3'],
@@ -54,7 +54,6 @@ describe('.height()', function () {
 })
 
 describe('.isLeaf()', function () {
-    
     context('using tree array', function () {
         var measure = new TreeMeasurer({
             childNames: ['1', '2']
@@ -93,7 +92,7 @@ describe('.data()', function() {
     it('returns data of node', function () {
         var measure = new TreeMeasurer({
             childNames: ['1', '2'],
-            dataName: '0',
+            dataName: '0'
         })
         var tree = simpleTreeArray()
 
@@ -103,7 +102,7 @@ describe('.data()', function() {
     it('returns undefined if is not a tree node', function () {
         var measure = new TreeMeasurer({
             childNames: ['left', 'right'],
-            dataName: 'data',
+            dataName: 'data'
         })
         var tree = treeObjectWithParents()
 
@@ -146,7 +145,7 @@ describe('.projection()', function() {
                 var measure = new TreeMeasurer({
                     childNames: ['2', '3'],
                     parentName: '1',
-                    dataName: '0',
+                    dataName: '0'
                 })
                 var tree = treeArrayWithParents()
 
@@ -161,7 +160,7 @@ describe('.projection()', function() {
                 var measure = new TreeMeasurer({
                     childNames: ['left', 'right'],
                     parentName: 'parent',
-                    dataName: 'data',
+                    dataName: 'data'
                 })
                 var tree = treeObjectWithParents()
 
@@ -180,7 +179,7 @@ describe('.depth()', function() {
             measure = new TreeMeasurer({
                 parentName: 'parent',
                 childNames: ['left', 'right'],
-                dataName: 'data',
+                dataName: 'data'
             })
         })
         var tree = treeObjectWithParents()
@@ -200,7 +199,7 @@ describe('.depth()', function() {
         beforeEach(function () {
             measure = new TreeMeasurer({
                 childNames: ['left', 'right'],
-                dataName: 'data',
+                dataName: 'data'
             })
 
             tree = simpleTreeObject()
@@ -215,12 +214,6 @@ describe('.depth()', function() {
     })
 })
 
-var util = require('util')
-
-console.debug = function (obj) {
-    console.log(util.inspect(obj, false, null));
-}
-
 function simpleTreeObject () {
     return {
         data: 5,
@@ -228,7 +221,7 @@ function simpleTreeObject () {
             data: 1,
             left: {
                 data: 8
-            },
+            }
         },
         right: {
             data: 2,
@@ -247,18 +240,18 @@ function simpleTreeObject () {
 
 function simpleTreeArray() {
     return [
-        5, 
+        5,
         [
             1,
             [8]
-        ], 
+        ],
         [
-            2, 
+            2,
             [
                 11,
-                undefined, 
+                undefined,
                 [6]
-            ], 
+            ],
             [23]
 
         ]

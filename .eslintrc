@@ -1,0 +1,14 @@
+{
+    "rules": {
+        "comma-dangle": [2, "never"],
+        "indent": 2,
+        "no-console": 2,
+        "no-constant-condition": 2,
+        "no-trailing-spaces": 2,
+        "no-dupe-args": 2,
+        "no-dupe-keys": 2,
+        "no-irregular-whitespace": 2,
+        "semi": [2, "never"],
+        "valid-jsdoc": 2
+    }
+}
